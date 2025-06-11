@@ -1,29 +1,40 @@
+<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cart</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 30px;
     }
-    h1 {
-      color: #2c3e50;
-    }
-    .item {
-      border-bottom: 1px solid #ccc;
-      padding: 10px 0;
+    .cart-item {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
   <h1>Your Cart</h1>
-  <div id="cart-items"></div>
-  <br><br>
-  <a href="index.html">Back to Home</a>
-  <script src="script.js"></script>
-  <script>window.onload = displayCart;</script>
+
+  <!-- Sample cart items will be displayed here by JS or hardcoded -->
+  <div class="cart-item">
+    <p>Product 1 - ₹800</p>
+  </div>
+  <div class="cart-item">
+    <p>Product 2 - ₹2000</p>
+  </div>
+
+  <button onclick="placeOrder()">Place Order</button>
+
+  <script>
+    function placeOrder() {
+      // Simple redirection to order success page
+      window.location.href = "order.html";
+    }
+  </script>
 </body>
 </html>

@@ -1,5 +1,3 @@
-// script.js
-
 // Add product to cart
 function addToCart(productName, price) {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -34,6 +32,12 @@ function displayCart() {
   const totalDiv = document.createElement("p");
   totalDiv.innerHTML = `<strong>Total:</strong> ₹${total}`;
   cartContainer.appendChild(totalDiv);
+
+  // Add "Place Order" button
+  const orderButton = document.createElement("button");
+  orderButton.textContent = "Place Order";
+  orderButton.onclick = placeOrder;
+  cartContainer.appendChild(orderButton);
 }
 
 // Remove product from cart
@@ -43,3 +47,11 @@ function removeFromCart(index) {
   localStorage.setItem("cart", JSON.stringify(cart));
   displayCart();
 }
+
+// Place Order function
+function placeOrder() {
+  localStorage.removeItem("cart");
+  alert("Order placed successfully!");
+  displayCart(); // Refresh the cart view
+}
+

@@ -1,40 +1,77 @@
-<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cart</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 30px;
     }
-    .cart-item {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin: 10px;
+    .item {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    #place-order {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
       border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <h1>Your Cart</h1>
-
-  <!-- Sample cart items will be displayed here by JS or hardcoded -->
-  <div class="cart-item">
-    <p>Product 1 - ₹800</p>
-  </div>
-  <div class="cart-item">
-    <p>Product 2 - ₹2000</p>
-  </div>
-
-  <button onclick="placeOrder()">Place Order</button>
+  <div id="cart-items"></div>
+  <button id="place-order">Place Order</button>
 
   <script>
-    function placeOrder() {
-      // Simple redirection to order success page
-      window.location.href = "orders.html";
+    const cartContainer = document.getElementById("cart-items");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function displayCart() {
+      if (cart.length === 0) {
+        cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      cart.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `<p><strong>${item.productName}</strong> - ₹${item.price}</p>`;
+        cartContainer.appendChild(div);
+      });
     }
+
+    displayCart();
+
+    document.getElementById("place-order").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Cart is empty. Cannot place order.");
+        return;
+      }
+
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+      const newOrder = {
+        id: Date.now(),
+        items: cart,
+        total: cart.reduce((sum, item) => sum + item.price, 0),
+        status: "Placed"
+      };
+
+      orders.push(newOrder);
+      localStorage.setItem("orders", JSON.stringify(orders));
+      localStorage.removeItem("cart");
+
+      alert("Order placed successfully!");
+      window.location.href = "orders.html";
+    });
   </script>
 </body>
 </html>
+

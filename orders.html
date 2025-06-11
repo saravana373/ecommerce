@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Orders</title>
   <style>
     body {
@@ -22,19 +22,31 @@
 </head>
 <body>
   <h1>Order History</h1>
-  <div class="order">
-    <p><strong>Order #1234</strong></p>
-    <p>Items: Product 1, Product 2</p>
-    <p>Total: ₹1499</p>
-    <p>Status: Delivered</p>
-  </div>
-  <div class="order">
-    <p><strong>Order #5678</strong></p>
-    <p>Items: Product 3</p>
-    <p>Total: ₹750</p>
-    <p>Status: Shipped</p>
-  </div>
+  <div id="order-list"></div>
   <a href="index.html">Back to Home</a>
-  <script src="script.js"></script>
+
+  <script>
+    const orderList = document.getElementById("order-list");
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    if (orders.length === 0) {
+      orderList.innerHTML = "<p>No orders found.</p>";
+    } else {
+      orders.forEach(order => {
+        const div = document.createElement("div");
+        div.className = "order";
+
+        const items = order.items.map(item => item.productName).join(", ");
+        div.innerHTML = `
+          <p><strong>Order #${order.id}</strong></p>
+          <p>Items: ${items}</p>
+          <p>Total: ₹${order.total}</p>
+          <p>Status: ${order.status}</p>
+        `;
+        orderList.appendChild(div);
+      });
+    }
+  </script>
 </body>
 </html>
+
